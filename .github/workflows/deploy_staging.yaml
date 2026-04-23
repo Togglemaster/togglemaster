@@ -7,11 +7,13 @@ jobs:
   # 1. Aplicar Infra
   Terraform:
     uses: Togglemaster/Terraform/.github/workflows/terraform_apply_staging.yaml@main
+    secrets: inherit
 
   # 2. Sincronizar Secrets
   Secrets:
     needs: Terraform
     uses: Togglemaster/Terraform/.github/workflows/secrets_staging.yaml@main
+    secrets: inherit
 
   # 3. CI dos Microserviços (Rodam em paralelo)
   CI_Auth:
