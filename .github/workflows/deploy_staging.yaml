@@ -12,28 +12,28 @@ jobs:
 
     steps:
       - name: Call_Terraform
-        uses: Terraform/.github/workflows/terraform_apply_staging.yaml@main
+        uses: Togglemaster/Terraform/.github/workflows/terraform_apply_staging.yaml@main
 
       - name: Call_Secrets
-        uses: Terraform/.github/workflows/secrets_staging.yaml@main
+        uses: Togglemaster/Terraform/.github/workflows/secrets_staging.yaml@main
 
       - name: CI_Auth_Service
-        uses: Auth-Service/.github/workflows/auth_staging.yaml@main
+        uses: Togglemaster/Auth-Service/.github/workflows/auth_staging.yaml@main
 
       - name: CI_Flag_Service
-        uses: Flag-Service/.github/workflows/flag_staging.yaml@main
+        uses: Togglemaster/Flag-Service/.github/workflows/flag_staging.yaml@main
 
       - name: CI_Targeting_Service
-        uses: Targeting-Service/.github/workflows/targeting_staging.yaml@main
+        uses: Togglemaster/Targeting-Service/.github/workflows/targeting_staging.yaml@main
 
       - name: CI_Evaluation_Service
-        uses: Evaluation-Service/.github/workflows/evaluation_staging.yaml@main
+        uses: Togglemaster/Evaluation-Service/.github/workflows/evaluation_staging.yaml@main
 
       - name: CI_Analytics_Service
-        uses: Analytics-Service/.github/workflows/analytics_staging.yaml@main
+        uses: Togglemaster/Analytics-Service/.github/workflows/analytics_staging.yaml@main
 
       - name: Call_ArgoCD
-        uses: Terraform/.github/workflows/argo_cd.yaml@main
+        uses: Togglemaster/Terraform/.github/workflows/argo_cd.yaml@main
 
   Helm-Deploy-Staging:
     name: Helm-Deploy-Staging
