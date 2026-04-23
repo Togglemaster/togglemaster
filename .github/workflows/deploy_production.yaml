@@ -1,0 +1,21 @@
+name: Deploy Production
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  Terraform-Apply-Production:
+    name: Terraform-Apply-Production
+    runs-on: ubuntu-latest
+    environment: Production
+
+    steps:
+      - name: Call_Terraform
+        uses: Terraform/.github/workflows/terraform_apply_production.yaml@main
+
+      - name: Call_Secrets
+        uses: Terraform/.github/workflows/secrets_production.yaml@main
+
+      - name: Call_ArgoCD
+        uses: Terraform/.github/workflows/argo_cd.yaml@main

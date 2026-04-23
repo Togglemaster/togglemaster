@@ -1,0 +1,36 @@
+project: default
+targetRevision: main
+
+destination:
+  server: https://kubernetes.default.svc
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+
+services:
+  auth-service:
+    repoURL: https://github.com/Togglemaster/Auth-Service
+    path: Helm/auth-service
+    namespace: auth-service
+
+  flag-service:
+    repoURL: https://github.com/Togglemaster/Flag-Service
+    path: Helm/flag-service
+    namespace: flag-service
+
+  targeting-service:
+    repoURL: https://github.com/Togglemaster/Targeting-Service
+    path: Helm/targeting-service
+    namespace: targeting-service
+
+  evaluation-service:
+    repoURL: https://github.com/Togglemaster/Evaluation-Service
+    path: Helm/evaluation-service
+    namespace: evaluation-service
+
+  analytics-service:
+    repoURL: https://github.com/Togglemaster/Analytics-Service
+    path: Helm/analytics-service
+    namespace: analytics-service

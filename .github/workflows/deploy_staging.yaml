@@ -1,0 +1,21 @@
+name: Deploy Staging
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  Terraform-Apply-Staging:
+    name: Terraform-Apply-Staging
+    runs-on: ubuntu-latest
+    environment: Staging
+
+    steps:
+      - name: Call_Terraform
+        uses: Terraform/.github/workflows/terraform_apply_staging.yaml@main
+
+      - name: Call_Secrets
+        uses: Terraform/.github/workflows/secrets_staging.yaml@main
+
+      - name: Call_ArgoCD
+        uses: Evaluation-Service/.github/workflows/evaluation.yaml@main

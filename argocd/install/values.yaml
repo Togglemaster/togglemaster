@@ -1,0 +1,39 @@
+argo-cd:
+  global:
+    logging:
+      format: json
+
+  configs:
+    params:
+      # NGINX faz o TLS termination na borda; o servidor escuta em HTTP interno
+      server.insecure: true
+      # Servir o Argo CD sob o path /argocd
+      server.basehref: /argocd
+      server.rootpath: /argocd
+
+  server:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: /argocd/$2
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      paths:
+        - /argocd(/|$)(.*)
+      pathType: ImplementationSpecific
+
+  dex:
+    enabled: false
+
+  notifications:
+    enabled: false
+
+  applicationSet:
+    enabled: true
+
+  repoServer:
+    replicas: 1
+
+  controller:
+    replicas: 1

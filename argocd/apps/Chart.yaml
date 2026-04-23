@@ -1,0 +1,5 @@
+apiVersion: v2
+name: togglemaster-apps
+description: App-of-Apps que cria as Applications dos microsservicos Togglemaster
+type: application
+version: 0.1.0

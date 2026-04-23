@@ -1,0 +1,26 @@
+{{- range $name, $svc := .Values.services }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $name }}
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $svc.repoURL }}
+    targetRevision: {{ $svc.targetRevision | default $.Values.targetRevision }}
+    path: {{ $svc.path }}
+  destination:
+    server: {{ $.Values.destination.server }}
+    namespace: {{ $svc.namespace }}
+  syncPolicy:
+    automated:
+      prune: {{ $.Values.syncPolicy.automated.prune }}
+      selfHeal: {{ $.Values.syncPolicy.automated.selfHeal }}
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+{{- end }}
