@@ -17,5 +17,80 @@ jobs:
       - name: Call_Secrets
         uses: Terraform/.github/workflows/secrets_staging.yaml@main
 
+      - name: CI_Auth_Service
+        uses: Auth-Service/.github/workflows/auth_staging.yaml@main
+
+      - name: CI_Flag_Service
+        uses: Flag-Service/.github/workflows/flag_staging.yaml@main
+
+      - name: CI_Targeting_Service
+        uses: Targeting-Service/.github/workflows/targeting_staging.yaml@main
+
+      - name: CI_Evaluation_Service
+        uses: Evaluation-Service/.github/workflows/evaluation_staging.yaml@main
+
+      - name: CI_Analytics_Service
+        uses: Analytics-Service/.github/workflows/analytics_staging.yaml@main
+
       - name: Call_ArgoCD
-        uses: Evaluation-Service/.github/workflows/evaluation.yaml@main
+        uses: Terraform/.github/workflows/argo_cd.yaml@main
+
+  Helm-Deploy-Staging:
+    name: Helm-Deploy-Staging
+    runs-on: ubuntu-latest
+    environment: Staging
+    needs: Terraform-Apply-Staging
+
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      EKS_CLUSTER_NAME: togglemaster-staging
+      ARGOCD_NAMESPACE: argocd
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Update kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig \
+            --region $AWS_REGION \
+            --name $EKS_CLUSTER_NAME
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.15.0
+
+      - name: Build Helm dependencies (argocd-install)
+        run: helm dependency update argocd/install
+
+      - name: Deploy ArgoCD (Helm)
+        run: |
+          helm upgrade --install argocd argocd/install \
+            --namespace $ARGOCD_NAMESPACE \
+            --create-namespace \
+            -f argocd/install/values-staging.yaml \
+            --wait --timeout 10m
+
+      - name: Deploy App-of-Apps (togglemaster-apps)
+        run: |
+          helm upgrade --install togglemaster-apps argocd/apps \
+            --namespace $ARGOCD_NAMESPACE \
+            -f argocd/apps/values.yaml \
+            --set targetRevision=main \
+            --wait --timeout 5m
+
+      - name: Apply ArgoCD Root Application
+        run: kubectl apply -f argocd/bootstrap.yaml -n $ARGOCD_NAMESPACE
+
+      - name: Verify ArgoCD Applications
+        run: |
+          kubectl get applications -n $ARGOCD_NAMESPACE
+          kubectl get pods -n $ARGOCD_NAMESPACE
