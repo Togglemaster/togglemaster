@@ -45,5 +45,6 @@ jobs:
   Deploy_Helm:
     needs: [CI_Auth, CI_Flag, CI_Targeting, CI_Evaluation, CI_Analytics] # Espera os CIs terminarem
     uses: Togglemaster/togglemaster/.github/workflows/helm_deploy.yaml@main
+    secrets: inherit
     with:
       environment: 'staging'
