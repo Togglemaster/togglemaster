@@ -19,6 +19,7 @@ argo-cd:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /argocd/$2
         nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      hosts: []
       paths:
         - /argocd(/|$)(.*)
       pathType: ImplementationSpecific
