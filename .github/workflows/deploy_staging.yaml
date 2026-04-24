@@ -19,22 +19,27 @@ jobs:
   CI_Auth:
     needs: Secrets
     uses: Togglemaster/Auth-Service/.github/workflows/auth_staging.yaml@main
+    secrets: inherit
 
   CI_Flag:
     needs: Secrets
     uses: Togglemaster/Flag-Service/.github/workflows/flag_staging.yaml@main
+    secrets: inherit
 
   CI_Targeting:
     needs: Secrets
     uses: Togglemaster/Targeting-Service/.github/workflows/targeting_staging.yaml@main
+    secrets: inherit
 
   CI_Evaluation:
     needs: Secrets
     uses: Togglemaster/Evaluation-Service/.github/workflows/evaluation_staging.yaml@main
+    secrets: inherit
 
   CI_Analytics:
     needs: Secrets
     uses: Togglemaster/Analytics-Service/.github/workflows/analytics_staging.yaml@main
+    secrets: inherit
 
   # 4. Deploy Final com ArgoCD e Helm
   Deploy_Helm:
