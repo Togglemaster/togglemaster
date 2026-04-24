@@ -17,7 +17,7 @@ jobs:
   
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      EKS_CLUSTER_NAME: togglemaster-${{ inputs.environment }}
+      EKS_CLUSTER_NAME: togglemaster-${{ inputs.environment }}-cluster
       ARGOCD_NAMESPACE: argocd
 
     steps:
