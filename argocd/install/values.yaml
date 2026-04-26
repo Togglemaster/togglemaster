@@ -1,5 +1,6 @@
 argo-cd:
   global:
+    domain: ""
     logging:
       format: json
 
@@ -18,9 +19,9 @@ argo-cd:
       ingressClassName: nginx
       annotations:
         nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      hosts: []
-      paths:
-        - /argocd
+        nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      hostname: ""
+      path: /argocd
       pathType: Prefix
 
   dex:
