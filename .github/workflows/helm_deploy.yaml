@@ -50,6 +50,7 @@ jobs:
           helm upgrade --install argocd argocd/install \
             --namespace $ARGOCD_NAMESPACE \
             --create-namespace \
+            -f argocd/install/values.yaml \
             -f argocd/install/values-${{ inputs.environment }}.yaml \
             --wait --timeout 10m
 
