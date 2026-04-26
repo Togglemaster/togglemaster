@@ -37,6 +37,7 @@ jobs:
   # 4. Deploy Final com ArgoCD e Helm
   Deploy_Helm:
     needs: [CI_Auth, CI_Flag, CI_Targeting, CI_Evaluation, CI_Analytics] # Espera os CIs terminarem
-    uses: Togglemaster/togglemaster/.github/workflows/argo_cd.yaml@main
+    uses: Togglemaster/togglemaster/.github/workflows/helm_deploy.yaml@main
+    secrets: inherit
     with:
       environment: 'production'

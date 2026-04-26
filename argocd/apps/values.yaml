@@ -1,5 +1,6 @@
 project: default
 targetRevision: main
+pathPrefix: ""
 
 destination:
   server: https://kubernetes.default.svc

@@ -53,16 +53,8 @@ jobs:
             -f argocd/install/values-${{ inputs.environment }}.yaml \
             --wait --timeout 10m
 
-      - name: Deploy App-of-Apps (togglemaster-apps)
-        run: |
-          helm upgrade --install togglemaster-apps argocd/apps \
-            --namespace $ARGOCD_NAMESPACE \
-            -f argocd/apps/values.yaml \
-            --set targetRevision=main \
-            --wait --timeout 5m
-
       - name: Apply ArgoCD Root Application
-        run: kubectl apply -f argocd/bootstrap.yaml -n $ARGOCD_NAMESPACE
+        run: kubectl apply -f argocd/bootstrap-${{ inputs.environment }}.yaml
 
       - name: Verify ArgoCD Applications
         run: |

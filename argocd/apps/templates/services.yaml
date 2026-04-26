@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: {{ $svc.repoURL }}
     targetRevision: {{ $svc.targetRevision | default $.Values.targetRevision }}
-    path: {{ $svc.path }}
+    path: {{ if $.Values.pathPrefix }}{{ $.Values.pathPrefix }}/{{ end }}{{ $svc.path }}
   destination:
     server: {{ $.Values.destination.server }}
     namespace: {{ $svc.namespace }}
