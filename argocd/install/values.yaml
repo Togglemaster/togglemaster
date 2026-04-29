@@ -8,18 +8,16 @@ argo-cd:
     params:
       server.insecure: true
       server.rootpath: /argocd
+      server.basehref: /argocd
 
   server:
-    extraArgs:
-      - --rootpath=/argocd
-      - --insecure
-
     ingress:
       enabled: true
+      controller: generic
       ingressClassName: nginx
       annotations:
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
         nginx.ingress.kubernetes.io/ssl-redirect: "false"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       hostname: ""
       path: /argocd
       pathType: Prefix
